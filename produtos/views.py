@@ -17,9 +17,8 @@ def pesquisa_produto(request):
         #ignora 
         nome = request.POST.get('nome')
         listaprod = getComentarioMLB.getMLB(nome)
-        img=getComentarioMLB.getMLBimg(nome)
         
-        return render(request,'teladepesquisa.html',{'produto':listaprod,'img':img})
+        return render(request,'teladepesquisa.html',{'produto':listaprod})
 
 # def inserir_produto(request):
 #     return HttpResponse('Estou no inserir')

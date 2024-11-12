@@ -4,8 +4,8 @@ import json
 
 jsonProd = []
 
-def mlbanuncio(numanuncio):
-    prodAnuncio = jsonProd["results"][numanuncio]["permalink"]
+def mlbanuncio(link):
+    prodAnuncio = link
     anuncio = requests(prodAnuncio)
     if anuncio.status_code==200:
         soup = BeautifulSoup(anuncio.content,'html.parser')
@@ -23,18 +23,6 @@ def mlbanuncio(numanuncio):
             return all_p
 
 
-def getMLBimg(nomeProduto):
-    produto = requests.get("https://api.mercadolibre.com/sites/MLB/search?q="+nomeProduto)   
-    
-    #Validacao do primeiro GET
-    if produto.status_code ==200:
-        jsonProd = produto.json()
-        lista = []
-        
-        #Esse FOR ele mostra todos os primeiros 10 anuncios relacioandos com o primeiro GET
-        for i in range (10):
-            lista.append(jsonProd["results"][i]["thumbnail"])
-        return lista
 
 
 def getMLB(nomeProduto):
@@ -47,7 +35,7 @@ def getMLB(nomeProduto):
         lista = []
         
         #Esse FOR ele mostra todos os primeiros 10 anuncios relacioandos com o primeiro GET
-        for i in range (10):
+        for i in range (12):
             lista.append(jsonProd["results"][i])
         return lista
         #Aqui vai ser solicitado qual dos anuncios ele quer pegar os comentarios
