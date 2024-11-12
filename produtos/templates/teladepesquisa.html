@@ -22,13 +22,15 @@
 
     <h1>Produtos</h1>
     <div class="container">
-        {{produto}}
+        {% for i in produto %}
         <div class="product">
-            <img src="https://via.placeholder.com/250" alt="Produto 1">
-            <div class="product-title">Produto 1</div>
-            <div class="product-price">R$ 100,00</div>
+            <img src={{i.thumbnail}} alt="Produto 1">
+            <div class="product-title">{{i.title}}</div>
+            <div class="product-price">{{i.price}}</div>
             <a href="produto1.html"> Ver detalhes </a>
         </div>
+        {%endfor%}
+
     </div>
     
     <footer>

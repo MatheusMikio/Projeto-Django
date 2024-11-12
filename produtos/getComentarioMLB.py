@@ -23,7 +23,18 @@ def mlbanuncio(numanuncio):
             return all_p
 
 
-
+def getMLBimg(nomeProduto):
+    produto = requests.get("https://api.mercadolibre.com/sites/MLB/search?q="+nomeProduto)   
+    
+    #Validacao do primeiro GET
+    if produto.status_code ==200:
+        jsonProd = produto.json()
+        lista = []
+        
+        #Esse FOR ele mostra todos os primeiros 10 anuncios relacioandos com o primeiro GET
+        for i in range (10):
+            lista.append(jsonProd["results"][i]["thumbnail"])
+        return lista
 
 
 def getMLB(nomeProduto):
@@ -34,10 +45,10 @@ def getMLB(nomeProduto):
     if produto.status_code ==200:
         jsonProd = produto.json()
         lista = []
+        
         #Esse FOR ele mostra todos os primeiros 10 anuncios relacioandos com o primeiro GET
         for i in range (10):
-            print(str(i)+" = "+jsonProd["results"][i]["title"])
-            lista.append(jsonProd["results"][i]["title"])
+            lista.append(jsonProd["results"][i])
         return lista
         #Aqui vai ser solicitado qual dos anuncios ele quer pegar os comentarios
         codProd = int(input("Escolha o produto q deseja: "))
