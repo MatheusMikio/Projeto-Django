@@ -1,21 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
-import json
-import re
-
-jsonProd = []
-
-
 
 def mlbanuncio(link,h1,clas):
     anuncio = requests.get(link)
     if anuncio.status_code==200:
         soup = BeautifulSoup(anuncio.content,'html.parser')
-        titulo = soup.find_all(h1,{'class':clas})
+        text = soup.find_all(h1,{'class':clas})
 
         all_titulo =[]
 
-        for t in titulo:
+        for t in text:
             all_titulo.append(t.text)    
         return all_titulo
     else:
