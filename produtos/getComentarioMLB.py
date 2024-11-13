@@ -1,29 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
-import json
 
-jsonProd = []
-
-def mlbanuncio(link):
-    prodAnuncio = link
-    anuncio = requests(prodAnuncio)
+def mlbanuncio(link,h1,clas):
+    anuncio = requests.get(link)
     if anuncio.status_code==200:
         soup = BeautifulSoup(anuncio.content,'html.parser')
-        #Aqui ele vai pegar todos os elementos P com a Class determina na pagina do anuncio que seria onde fica os comentarios, para ter certezar usar a inspecao de elementos do navegardor e procurar pela class abaixo
-        comentarios = soup.find_all('p',{'class':'ui-review-capability-comments__comment__content ui-review-capability-comments__comment__content'})
+        text = soup.find_all(h1,{'class':clas})
 
-        #Criando a lista dos comentarios
-        all_p = []
-        #Adicionando os comentarios a lista
-        for p in comentarios:
-            all_p.append(p.text)
+        all_titulo =[]
 
-        #Validando se o anuncio tem comentarios
-        if all_p != []:
-            return all_p
-
-
-
+        for t in text:
+            all_titulo.append(t.text)    
+        return all_titulo
+    else:
+        return 'sem acesso ao anuncio'
+    
 
 def getMLB(nomeProduto):
     #Esse primeiro Get ele vai pegar os anuncios que tem relação com oq o usuario escreveu
@@ -38,39 +29,3 @@ def getMLB(nomeProduto):
         for i in range (12):
             lista.append(jsonProd["results"][i])
         return lista
-        #Aqui vai ser solicitado qual dos anuncios ele quer pegar os comentarios
-        codProd = int(input("Escolha o produto q deseja: "))
-        prodAnuncio = jsonProd["results"][codProd]["permalink"]
-        print(prodAnuncio)
-
-        #Get da pagina do anuncio solicitado pelo usuario
-        anuncio = requests.get(prodAnuncio)
-
-
-        #Validação do segundo GET 
-        if anuncio.status_code==200 : 
-
-            soup = BeautifulSoup(anuncio.content,'html.parser')
-
-            #Aqui ele vai pegar todos os elementos P com a Class determina na pagina do anuncio que seria onde fica os comentarios, para ter certezar usar a inspecao de elementos do navegardor e procurar pela class abaixo
-            comentarios = soup.find_all('p',{'class':'ui-review-capability-comments__comment__content ui-review-capability-comments__comment__content'})
-
-            #Criando a lista dos comentarios
-            all_p = []
-            #Adicionando os comentarios a lista
-            for p in comentarios:
-                all_p.append(p.text)
-
-            #Validando se o anuncio tem comentarios
-            if all_p != []:
-                #Mostrando os comentarios do anuncio
-                for texto in all_p:
-                    print("-------------------------------------------")
-                    print(texto)
-                    print("-------------------------------------------")
-            else:
-                print("Anuncio n possui comentarios")
-        else:
-            print('Erro '+str(anuncio.status_code))
-
-# getMLB(str(input("informe nome de um produto: ")))

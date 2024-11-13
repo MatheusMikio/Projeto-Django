@@ -1,27 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-import requests
-from bs4 import BeautifulSoup
-import json
 from . import getComentarioMLB
 
-
-# def ver_produto(request):
-#     return HttpResponse('Estou no ver')
 
 def pesquisa_produto(request):
     if request.method == "GET":
         return render(request, 'index.html')
     
     elif request.method == "POST":
-        #ignora 
         nome = request.POST.get('nome')
         listaprod = getComentarioMLB.getMLB(nome)
         
         return render(request,'teladepesquisa.html',{'produto':listaprod})
 
-# def inserir_produto(request):
-#     return HttpResponse('Estou no inserir')
+def visualizar_produto(request):
+    url = request.POST.get('urlProd')
+    img = request.POST.get('imgprod')
+    produto=getComentarioMLB.mlbanuncio(url,'p','ui-review-capability-comments__comment__content ui-review-capability-comments__comment__content')
+    titulo = getComentarioMLB.mlbanuncio(url,'h1','ui-pdp-title')
+    avaliacao = getComentarioMLB.mlbanuncio(url,'span','ui-pdp-review__rating')
+    
+    # preco = getComentarioMLB.mlbanuncio(url,'h1','ui-pdp-title')
+    # avaliacao = getComentarioMLB.mlbanuncio(url,'h1','ui-pdp-title')
 
-# def escolher_produto():
-# def visualizar_produto():
+    return render(request, 'produto.html',{'comentario':produto, 'titulo':titulo, 'img':img, 'avaliacao':avaliacao})
