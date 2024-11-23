@@ -4,43 +4,28 @@
 <html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Pesquisa</title>
-    <link id="favicon" rel="shortcut icon" type="image/png" href="{%static 'produtos/img/favicon1.png' %}">
-    <link rel="stylesheet" href="{% static 'produtos/css/estilo.css' %}">
-    <body>
-
-
-    <header class="navbar">
-        <a href="{% url 'pesquisa_produto'%}" class="home-button">Home</a>
-        <div class="search-bar">
-                <input type="text" placeholder="Pesquisar produtos..." name="nome">
-                <button class="search-button" type="submit">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/search.png" alt="Lupa de pesquisa">
-
-            </form>
-        </div>
-    </header>
-
-    <h1>Produtos</h1>
-    <div class="container">
-        {% for i in produto %}
-        <div class="product">
-            <form action="{% url 'visualizar_produto'%}" method="POST">{% csrf_token%}
-                <img src={{i.thumbnail}} alt="Produto 1">
-                <div class="product-title">{{i.title}}</div>
-                <div class="product-price ">R$ {{i.price}}</div>
-                <input  type="hidden" name = "urlProd" value="{{i.permalink}}">
-                <input  type="hidden" name = "imgprod" value = "{{i.thumbnail}}">
-                <button type="submit"> Ver detalhes </button>
-            </form>
-        </div>
-        {%endfor%}
-
+    <title>Escolha de produto</title>
+    <link rel="stylesheet" href="{% static 'produtos/css/style.css' %}">
+<body>
+    <div class="container-formulario">
+        <form action="{% url 'pesquisa_produto' %}" method="POST"> {% csrf_token%}
+            <input type="text" placeholder="Pesquise o seu produto" name="nome" id="searchInput">
+            <button type="submit" id="searchButton">Buscar</button>
+        </form>
     </div>
-    
-    <footer>
-        <p>© 2024. Todos os direitos reservados</p>
-    </footer>
-
+    <div class="container-escolher-produto">
+        {% for i in produto %}
+        <div class="produto-escolha">
+            <form action="{% url 'visualizar_produto'%}" method="POST">{% csrf_token %}
+                <img src="{{i.thumbnail}}" alt="Produto 1">
+                <div class="produto-titulo">{{i.title}}<br><p class="produto-preco">R$ {{i.price}}</p></div>
+                <input type="hidden" name="urlProd" value="{{i.permalink}}">
+                <input type="hidden" name="imgprod" value="{{i.thumbnail}}">
+                <input type="hidden" name ="prodPreco" value="{{i.price}}">
+                <button type="submit">Conferir</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

@@ -4,50 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="favicon" rel="shortcut icon" type="image/png" href="imagens/favicon1.png">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/estilo.css">
-    <title>Produto</title>
+    <link rel="stylesheet" href="{% static 'produtos/css/style.css' %}">
+    <title>Pesquise aqui - {%for t in titulo%}{{t}}{%endfor%}</title>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="home-button">Home</a>
-        <a href="teladepesquisa.html" class="home-button1">Produtos</a>
-        <form action="">
-            <div class="search-bar">
-                <input type="text" placeholder="Pesquisar produtos...">
-                <button class="search-button">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/search.png" alt="Lupa de pesquisa">
-                </button>
-            </div>
+    
+    <div class="container-formulario" style="margin-bottom: 0px;">
+        <form action="{% url 'pesquisa_produto' %}" method="POST"> {% csrf_token%}
+            <input type="text" placeholder="Pesquise o seu produto" name="nome" id="searchInput">
+            <button type="submit" id="searchButton">Buscar</button>
         </form>
-    </header>
-    <main>
-        <section class="product-section">
+    </div>
+    <div class="container-produto">
+        <h2>Produto</h2>
+        <div class="container-apresentacao-produto">
+            <div class="img-produto"><img src="{{img}}" alt="Imagem do Produto" class="product-image"></div>
             {%for t in titulo%}
-                <h1>{{t}}</h1>
+            <p>{{t}} <br> R${{preco}}</p>
             {%endfor%}
-            <img src="{{img}}" alt="Imagem do Produto" class="product-image">
-            <div class="rating">
-                <h2>Avaliação do Produto</h2>
-                <span>⭐⭐⭐⭐☆</span>
+            
+        </div>
+        <h2>Avaliaçoes</h2>
+        <div class="avaliacoes">
+            <div class="avaliaçao-produto">
+                <div class="star"></div>
                 {%for i in avaliacao%}
-                    <p>{{i}}</p>
+                    <p>{{i}}<br>Estrelas</p>
                 {%endfor%}
             </div>
-            <div class="comments">
-                <h2>Comentários</h2>
-                {% for i in comentario%}
-                    <div class="comment">
-                        <p><strong>Usuário1:</strong> {{i}}</p>
+            <div class="avaliaçao-produto">
+                <div class="star"></div>
+                {%for i in avaliacao%}
+                    <p>{{i}}<br>Estrelas</p>
+                {%endfor%}
+            </div>
+            <div class="avaliaçao-produto">
+                <div class="star"></div>
+                {%for i in avaliacao%}
+                    <p>{{i}}<br>Estrelas</p>
+                {%endfor%}
+            </div>
+        </div>
+        <h2>Resumo das opiniões</h2>
+        <div class="container-resumo">
+            <h3>No geral as pessoas tem comprado com certa regularidade este produto,<br> suas avaliações indicam uma boa qualidade</h3>
+        </div>
+        <h2>Comentários</h2>
+        <div class="container-comentarios">
+            
+            {% for i in comentario%}
+                
+                    <div class="comentario-card">
+                        <img src="{%static 'produtos/img/no-perfil.png' %}" >
+                        <div class="comentario">
+                            <p>Usuário anônimo <br>{{i}}</p>
+                            
+                        </div>
                     </div>
-                {%endfor%}
-                <form class="add-comment">
-                    <h3>Deixe seu comentário:</h3>
-                    <textarea placeholder="Escreva seu comentário..." required></textarea>
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
-        </section>
-    </main>
+            {%endfor%}
+        </div>
+        <button class="botao-ir-para-pagina-produto"><a href="{{url}}" target="_blank">Ir para pagina do produto</a></button>
+    </div>
+    
 </body>
 </html>
